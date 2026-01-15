@@ -43,16 +43,13 @@ This project is built using **FastAPI** and **FFmpeg** and focuses on automated 
 
 ai-peak-clip-generator/
 │
-├── backend/
-│ ├── main.py
-│ ├── video_utils.py
-│ ├── ai_pipeline.py
-│ ├── downloader.py
-│ └── chunker.py
-│
-├── requirements.txt
-└── README.md
-
+└── backend/
+  ├── main.py
+  ├── url_handler.py
+  ├── clips/
+  ├── uploads/
+  └── _pycache_
+ 
 ---
 
 ## ▶️ How to Run Locally
@@ -78,9 +75,7 @@ The frontend is a simple static web interface that allows users to submit a vide
 frontend/
 │
 ├── index.html
-├── result.html
-└── clips/
-
+└── result.html
 
 ---
 
