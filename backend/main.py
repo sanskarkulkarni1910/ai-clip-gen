@@ -158,7 +158,7 @@ def process_video(job_id, input_video):
 
             generated_clips.append({
                 "name": f"Clip {index + 1}",
-                "url": f"http://127.0.0.1:8000/stream/{clip_name}",
+                "url": f"https://ai-clip-gen-3.onrender.com/stream/{clip_name}",
                 "timestamp": f"{int(start // 60):02d}:{int(start % 60):02d}"
             })
 
@@ -212,7 +212,7 @@ async def handle_process(
         threading.Thread(target=download_and_process, daemon=True).start()
 
     return RedirectResponse(
-        url=f"http://127.0.0.1:5500/frontend/result.html?job={job_id}",
+        url=f"https://aipeakclips.netlify.app/result.html?job={job_id}",,
         status_code=303
     )
 
