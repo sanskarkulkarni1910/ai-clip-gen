@@ -21,7 +21,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOADS_DIR = os.path.join(BASE_DIR, "uploads")
 CLIPS_DIR = os.path.join(BASE_DIR, "clips")
 
-os.makedirs(UPLOADS_DIR, exist_ok=True)
 os.makedirs(CLIPS_DIR, exist_ok=True)
 
 sys.path.append(BASE_DIR)
