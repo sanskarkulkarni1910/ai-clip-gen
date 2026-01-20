@@ -23,6 +23,12 @@ CLIPS_DIR = os.path.join(BASE_DIR, "clips")
 
 os.makedirs(CLIPS_DIR, exist_ok=True)
 
+if not os.path.isdir(UPLOADS_DIR):
+    if os.path.exists(UPLOADS_DIR):
+        os.remove(UPLOADS_DIR)
+    os.makedirs(UPLOADS_DIR)
+
+
 sys.path.append(BASE_DIR)
 
 # =======================
