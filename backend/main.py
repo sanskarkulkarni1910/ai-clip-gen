@@ -125,22 +125,16 @@ def detect_visual_peaks(video_path, num_clips=4):
 # VIDEO PROCESSING
 # =======================
 def process_video(job_id, input_video):
-    """
-    Cuts short vertical clips (9:16) from high-action moments.
-    """
     try:
-        jobs[job_id]["status"] = "Analyzing video..."
+        jobs[job_id]["status"] = "processing"
 
         peaks = detect_visual_peaks(input_video)
         generated_clips = []
 
         for index, start in enumerate(peaks):
-            jobs[job_id]["status"] = f"Processing clip {index + 1}"
-
             clip_name = f"{job_id}_clip{index + 1}.mp4"
             output_path = os.path.join(CLIPS_DIR, clip_name)
 
-            # FFmpeg command for 9:16 vertical clip
             cmd = [
                 "ffmpeg", "-y",
                 "-ss", str(start),
@@ -154,12 +148,11 @@ def process_video(job_id, input_video):
                 output_path
             ]
 
-            subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(cmd)
 
             generated_clips.append({
                 "name": f"Clip {index + 1}",
-                "url": f"https://ai-clip-gen-3.onrender.com/stream/{clip_name}",
-                "timestamp": f"{int(start // 60):02d}:{int(start % 60):02d}"
+                "url": f"https://ai-clip-gen-3.onrender.com/stream/{clip_name}"
             })
 
         jobs[job_id] = {
@@ -167,12 +160,12 @@ def process_video(job_id, input_video):
             "clips": generated_clips
         }
 
-        if os.path.exists(input_video):
-            os.remove(input_video)
+        os.remove(input_video)
 
     except Exception as e:
-        print("Processing error:", e)
+        print(e)
         jobs[job_id] = {"status": "error"}
+
 
 # =======================
 # API ENDPOINTS
