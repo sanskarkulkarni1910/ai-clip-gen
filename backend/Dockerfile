@@ -5,10 +5,11 @@ RUN apt-get update && apt-get install -y ffmpeg
 WORKDIR /app
 
 COPY requirements.txt .
-
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+ENV BASE_URL=https://ai-clip-gen-4.onrender.com
 
 EXPOSE 8080
 
