@@ -132,6 +132,8 @@ def process_video(job_id, input_video):
         generated_clips = []
 
         for index, start in enumerate(peaks):
+            jobs[job_id]["status"] = f"Processing clip {index+1}"
+
             clip_name = f"{job_id}_clip{index + 1}.mp4"
             output_path = os.path.join(CLIPS_DIR, clip_name)
 
@@ -148,22 +150,21 @@ def process_video(job_id, input_video):
                 output_path
             ]
 
-            subprocess.run(cmd)
+            result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if result.returncode != 0:
+                print(result.stderr.decode())
+                raise Exception("FFmpeg failed")
 
             generated_clips.append({
                 "name": f"Clip {index + 1}",
                 "url": f"https://ai-clip-gen-3.onrender.com/stream/{clip_name}"
             })
 
-        jobs[job_id] = {
-            "status": "done",
-            "clips": generated_clips
-        }
-
+        jobs[job_id] = {"status": "done", "clips": generated_clips}
         os.remove(input_video)
 
     except Exception as e:
-        print(e)
+        print("ERROR:", e)
         jobs[job_id] = {"status": "error"}
 
 
